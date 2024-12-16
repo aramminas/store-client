@@ -1,0 +1,73 @@
+@use "../../../styles/css-variables.scss" as *;
+
+.product-form-content {
+  width: 50%;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 20px;
+
+  .product-image-content {
+    max-width: 25%;
+
+    img {
+      width: 100%;
+      border-radius: 10px;
+    }
+  }
+
+  form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    input.form-input {
+      @extend .input;
+      margin-top: 4px;
+
+      &:focus {
+        @extend .focus-outline;
+      }
+    }
+
+    label {
+      @extend .form-label;
+    }
+
+    .product-image {
+      @extend .file-input;
+    }
+
+    button {
+      height: 42px;
+      width: 120px;
+    }
+
+    .action-block {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 6px;
+    }
+
+    #product-description {
+      @extend .input;
+      width: 100%;
+      max-width: 872px;
+      max-height: 220px;
+
+      &:focus {
+        @extend .focus-outline;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 820px) {
+  .product-form-content {
+    width: 100%;
+    flex-direction: column;
+
+    .product-image-content {
+      max-width: 40%;
+    }
+  }
+}

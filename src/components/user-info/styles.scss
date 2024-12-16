@@ -1,0 +1,79 @@
+@use "../../styles/css-variables.scss" as *;
+
+.user-info-wrapper {
+  display: flex;
+
+  .user-info-image-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    margin-right: 40px;
+
+    img {
+      width: 100%;
+      border-radius: 50%;
+      aspect-ratio: 1 / 1;
+      border: 3px solid var(--border-gray);
+    }
+  }
+
+  .user-info-details-section {
+    width: 400px;
+
+    input.form-input {
+      @extend .input;
+      margin-top: 4px;
+
+      &:focus {
+        @extend .focus-outline;
+      }
+    }
+
+    label {
+      @extend .form-label;
+    }
+
+    button {
+      height: 42px;
+      width: 120px;
+    }
+
+    .user-avatar {
+      @extend .file-input;
+    }
+  }
+
+  .action-block {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 6px;
+  }
+}
+
+@media (max-width: 1090px) {
+  .user-info-wrapper {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .user-info-image-section {
+      margin-right: 0;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .user-info-wrapper {
+    .user-info-image-section,
+    .user-info-details-section {
+      width: 300px;
+    }
+
+    .user-info-image-section {
+      img {
+        width: 100%;
+      }
+    }
+  }
+}

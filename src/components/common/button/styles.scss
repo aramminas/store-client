@@ -1,0 +1,30 @@
+@use "../../../styles/css-variables.scss" as *;
+
+.primary-button {
+  background-color: var(--action-color);
+  color: #fff;
+  font-size: $font-small;
+  line-height: 24px;
+  border: none;
+  border-radius: 4px;
+  height: 32px;
+  padding: 0 16px;
+  transition: 0.2s;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  &:hover {
+    background-color: var(--action-color-hover);
+  }
+
+  &.error {
+    background-color: rgb(245, 21, 21);
+
+    &:hover {
+      background-color: rgb(240, 79, 79);
+    }
+  }
+}

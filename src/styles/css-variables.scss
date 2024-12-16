@@ -1,0 +1,57 @@
+$font-small: 14px;
+$font-medium: 16px;
+$font-large: 24px;
+
+@mixin searchIcon($color) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23#{$color}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-search'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+}
+
+@mixin arrowDown($color) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23#{$color}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-chevron-down'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+}
+
+.input {
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px 15px;
+  background-color: #eee;
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.file-input {
+  &::file-selector-button {
+    border-radius: 4px;
+    padding: 0 16px;
+    height: 40px;
+    cursor: pointer;
+    background-color: #eee;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+    margin-right: 16px;
+    margin-bottom: 10px;
+    transition: background-color 200ms;
+  }
+
+  &::file-selector-button:hover {
+    background-color: #f3f4f6;
+  }
+
+  &::file-selector-button:active {
+    background-color: #e5e7eb;
+  }
+}
+
+.form-label {
+  display: block;
+  color: #4d4d4d;
+  text-shadow: 1px 1px #c9c9c9;
+}
+
+.focus-outline {
+  border-color: rgba(23, 105, 229, 0.8);
+  box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset,
+    0 0 8px rgba(23, 88, 229, 0.6);
+  outline: 0 none;
+}
