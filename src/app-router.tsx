@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/layout";
-import { SignIn } from "./pages/singn-in";
+import { Login } from "./pages/login";
 import { Dashboard } from "./pages/dashboard";
 import { MyProfile } from "./pages/my-profile";
 import { ProductDetails } from "./pages/product-details";
@@ -13,7 +13,7 @@ export const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/login" element={<Login />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />

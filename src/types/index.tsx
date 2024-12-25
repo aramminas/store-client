@@ -29,6 +29,10 @@ export type UserT = {
   updatedAt: Date;
 };
 
+export type TokenT = {
+  accessToken?: string;
+};
+
 export type SignUpFormInputT = { avatar: File | null } & Omit<
   UserT,
   "id" | "createdAt" | "updatedAt" | "avatar"
@@ -57,3 +61,14 @@ export type CreateProductFormInputT = { image: File | null } & Omit<
   ProductT,
   "id" | "imageUrl" | "creatorId" | "createdAt" | "updatedAt"
 >;
+
+export type DecodedToken = {
+  exp: number;
+  iat: number;
+  user: {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
+};

@@ -5,6 +5,14 @@
   max-height: 100%;
   overflow: auto;
   padding: 0 4px;
+
+  .desc-text-content {
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    max-height: 44px;
+    padding-left: 10px;
+  }
 }
 
 .tableView {
@@ -153,10 +161,6 @@
 
   .products-header {
     display: none;
-  }
-
-  .desc-content {
-    padding-left: 10px;
   }
 
   .products-row {

@@ -45,8 +45,8 @@ const productsSlice = createSlice({
 
 export const fetchProducts = createAsyncThunk(
   "posts/fetchProducts",
-  async () => {
-    const response = await apiHandler<ProductT[]>("products");
+  async (signal?: AbortSignal) => {
+    const response = await apiHandler<ProductT[]>("products", { signal });
 
     return response.data;
   }

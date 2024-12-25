@@ -1,20 +1,22 @@
 import { FormEvent, useRef, useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { FaEdit, FaUserSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 import { Button } from "../common/button";
 import apiHandler from "../../constants/api";
 import { HoverText } from "../common/hover-text";
 import { ErrorText } from "../common/error-text";
-import { imgUrl, setNewDate } from "../../utils";
 import { UpdateUserFormInputT } from "../../types";
 import { defaultUresAvatar } from "../../constants";
+import { imgUrl, setNewDate, ss } from "../../utils";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { updateUserDataValidator } from "../../utils/form-validator";
 import { setUserData } from "@/store-client/src/store/slices/user.slice";
 import "./styles.scss";
 
 export const UserInfo = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.data);
   const [error, setError] = useState<string | null>(null);
@@ -86,6 +88,23 @@ export const UserInfo = () => {
     dispatch(setUserData(response.data));
   };
 
+  const handleRemoveAccount = async () => {
+    const response = await apiHandler(`users/${user?.id}`, {
+      method: "Delete",
+    });
+
+    if (response.error) {
+      setError(response.error);
+      return;
+    }
+
+    toast.warning("Account Deleted successfully!");
+    dispatch(setUserData(null));
+    ss.remove();
+
+    navigate("/login");
+  };
+
   return (
     <div className="user-info-wrapper">
       <div className="user-info-image-section">
@@ -144,6 +163,14 @@ export const UserInfo = () => {
           />
           {error && <ErrorText>{error}</ErrorText>}
           <div className="action-block">
+            <Button
+              type="button"
+              className="error"
+              onClick={handleRemoveAccount}
+            >
+              <FaUserSlash size={20} />
+              Delete account
+            </Button>
             <Button type="submit">
               <FaEdit />
               Edit

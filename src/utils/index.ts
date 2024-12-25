@@ -1,4 +1,6 @@
+import { jwtDecode } from "jwt-decode";
 import { serverUrl } from "../constants/envs";
+import { DecodedToken } from "../types";
 
 export const formatter = new Intl.DateTimeFormat("sv-SE", {
   year: "numeric",
@@ -33,4 +35,27 @@ export const ls = {
   remove: function () {
     localStorage.removeItem(this.key);
   },
+};
+
+export const ss = {
+  key: "accessToken",
+  set: function (token: string) {
+    sessionStorage.setItem(this.key, token);
+  },
+  get: function () {
+    return sessionStorage.getItem(this.key);
+  },
+  remove: function () {
+    sessionStorage.removeItem(this.key);
+  },
+};
+
+export const getJwtData = () => {
+  const token = ss.get();
+
+  if (!token) {
+    return null;
+  }
+
+  return jwtDecode<DecodedToken>(token);
 };

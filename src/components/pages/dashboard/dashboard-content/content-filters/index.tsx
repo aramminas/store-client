@@ -36,9 +36,7 @@ export const ContentFilters: FC<ContentFiltersProps> = ({
       form.elements.namedItem("onlyCreator") as HTMLInputElement
     ).checked;
 
-    if (onlyCreator) {
-      setOvnerId(true);
-    }
+    setOvnerId(onlyCreator);
   };
 
   const handleResetForm = () => {
@@ -52,7 +50,7 @@ export const ContentFilters: FC<ContentFiltersProps> = ({
       <input
         className="search-bar"
         placeholder="Search..."
-        type="text"
+        type="search"
         onChange={(ev) => debouncedChange(ev.target.value)}
       />
       <div className="app-content-actions-wrapper">

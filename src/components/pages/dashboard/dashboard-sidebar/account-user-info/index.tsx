@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { GrLogout } from "react-icons/gr";
-import { imgUrl, ls } from "@/store-client/src/utils";
+import { imgUrl, ss } from "@/store-client/src/utils";
 import { useAppSelector } from "@/store-client/src/store";
 import { defaultUresAvatar } from "@/store-client/src/constants";
 
@@ -10,8 +10,8 @@ export const AccountUserInfo = () => {
   const user = useAppSelector((state) => state.user.data);
 
   const handelLogout = () => {
-    ls.remove();
-    navigate("/sign-in");
+    ss.remove();
+    navigate("/login");
   };
 
   return (

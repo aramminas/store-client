@@ -1,15 +1,22 @@
 import apiHandler from "../constants/api";
-import { ls } from "../utils";
+import { useNavigate } from "react-router-dom";
+
+import { getJwtData } from "../utils";
 import { useAppDispatch } from "../store";
 import { setUserData } from "../store/slices/user.slice";
-import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const refetchUserData = async () => {
-    const userId = ls.get();
+    const userId = getJwtData()?.user?.id;
+
+    if (!userId) {
+      navigate("/login");
+      return;
+    }
+
     const response = await apiHandler(`users/${userId}`);
 
     if (response.data) {
@@ -17,7 +24,7 @@ export const useAuth = () => {
       return;
     }
 
-    navigate("/sign-in");
+    navigate("/login");
   };
 
   return refetchUserData;

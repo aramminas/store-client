@@ -36,7 +36,7 @@
 
     button {
       height: 42px;
-      width: 120px;
+      min-width: 120px;
     }
 
     .user-avatar {
@@ -48,6 +48,7 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 6px;
+    gap: 0 10px;
   }
 }
 

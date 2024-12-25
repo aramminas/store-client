@@ -50,13 +50,20 @@ export const Dashboard = () => {
         dispatch(setProductData(response.data));
       }
     },
-    [isOwnerId, search]
+    [dispatch, user?.id]
   );
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     if (status === "idle") {
-      dispatch(fetchProducts());
+      dispatch(fetchProducts(signal));
     }
+
+    return () => {
+      controller.abort();
+    };
   }, [data, status, dispatch]);
 
   useEffect(() => {

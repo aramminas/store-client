@@ -6,7 +6,7 @@ import { SignUpWelcomePanel } from "../../components/pages/auth/sign-up-welcome-
 import { SignInWelcomePanel } from "../../components/pages/auth/sign-in-welcome-panel";
 import "./styles.scss";
 
-export const SignIn = () => {
+export const Login = () => {
   const [toggleForm, setToogleForm] = useState(false);
 
   return (

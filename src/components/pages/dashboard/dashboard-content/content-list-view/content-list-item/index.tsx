@@ -45,10 +45,8 @@ export const ContentListItem: FC<ContentListItemProps> = ({
       </div>
       <div className="product-cell description desc-content">
         <span className="cell-label">Description:</span>
-        <span className="desc-content">
-          {product.description
-            ? product.description.substring(0, 100) + "..."
-            : "-"}
+        <span className="desc-text-content">
+          {product.description ? product.description : "-"}
         </span>
       </div>
     </div>

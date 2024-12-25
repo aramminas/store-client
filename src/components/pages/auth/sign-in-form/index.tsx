@@ -2,15 +2,15 @@ import { FormEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { ls } from "@/store-client/src/utils";
+import { ss } from "@/store-client/src/utils";
 import { ErrorText } from "../../../common/error-text";
 import { HelperText } from "../../../common/helper-text";
 import { useAppDispatch } from "@/store-client/src/store";
 import apiHandler from "@/store-client/src/constants/api";
 import { passwordHelperText } from "@/store-client/src/constants";
-import { SignInFormInputT, UserT } from "@/store-client/src/types";
 import { setUserData } from "@/store-client/src/store/slices/user.slice";
 import { signInValidator } from "@/store-client/src/utils/form-validator";
+import { SignInFormInputT, TokenT, UserT } from "@/store-client/src/types";
 
 export const SignInForm = () => {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export const SignInForm = () => {
     formData.append("email", email);
     formData.append("password", password);
 
-    const response = await apiHandler<UserT>("users/login", {
+    const response = await apiHandler<UserT & TokenT>("users/login", {
       method: "POST",
       body: formData,
     });
@@ -56,8 +56,8 @@ export const SignInForm = () => {
 
     dispatch(setUserData(response.data));
 
-    if (response.data?.id) {
-      ls.set(+response.data?.id);
+    if (response.data?.accessToken) {
+      ss.set(response.data?.accessToken);
     }
     toast.success("You have successfully logged in. 🎉");
     navigate("/");
