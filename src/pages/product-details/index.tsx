@@ -23,12 +23,9 @@ export const ProductDetails = () => {
   );
 
   const deleteProduct = async () => {
-    const response = await apiHandler(
-      `products/${params.id}/?userId=${user?.id}`,
-      {
-        method: "DELETE",
-      }
-    );
+    const response = await apiHandler(`products/${params.id}`, {
+      method: "DELETE",
+    });
 
     if (response.error) {
       toast.error("Failed to remove product");

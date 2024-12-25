@@ -87,13 +87,10 @@ export const CreateEditProductForm: FC<CreateEditProductFormProps> = ({
     }
 
     if (userId) {
-      const response = await apiHandler(
-        `products/${product?.id}/?userId=${userId}`,
-        {
-          method: "PATCH",
-          body: formData,
-        }
-      );
+      const response = await apiHandler(`products/${product?.id}`, {
+        method: "PATCH",
+        body: formData,
+      });
 
       if (response.error) {
         setError(response.error);
