@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { IoMdAdd } from "react-icons/io";
+
 import {
   fetchProducts,
   setProductData,
@@ -76,6 +78,7 @@ export const Dashboard = () => {
         title="Products"
         btnText="Add Product"
         path="/create-product"
+        icon={<IoMdAdd size={18} />}
       />
       <ContentFilters
         isCardView={isCardView}
@@ -88,7 +91,7 @@ export const Dashboard = () => {
       {status === "failed" && <Alert type="error">{error}</Alert>}
       {loading && <Loader />}
 
-      {data && (
+      {!!data?.length && (
         <ContentListView
           isCardView={isCardView}
           userId={user?.id || 0}

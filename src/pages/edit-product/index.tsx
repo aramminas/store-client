@@ -1,3 +1,5 @@
+import { AiFillProduct } from "react-icons/ai";
+
 import { useParams } from "react-router-dom";
 import { ProductT } from "../../types";
 import { useAppSelector } from "../../store";
@@ -17,7 +19,12 @@ export const EditProduct = () => {
 
   return (
     <div>
-      <ContentHeader title="Edit Product" btnText="All Products" path="/" />
+      <ContentHeader
+        title="Edit Product"
+        btnText="All Products"
+        path="/"
+        icon={<AiFillProduct />}
+      />
       <PageContentWrapper>
         {loading && <Loader />}
         {error && <Alert type="error">{error}</Alert>}

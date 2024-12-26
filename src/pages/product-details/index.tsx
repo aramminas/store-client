@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { AiFillProduct } from "react-icons/ai";
 import { toast } from "react-toastify";
 
 import { ProductT } from "../../types";
@@ -39,7 +40,12 @@ export const ProductDetails = () => {
 
   return (
     <>
-      <ContentHeader title="Product Details" btnText="All Products" path="/" />
+      <ContentHeader
+        title="Product Details"
+        btnText="All Products"
+        path="/"
+        icon={<AiFillProduct />}
+      />
       <PageContentWrapper>
         {loading && <Loader />}
         {error && <Alert type="error">{error}</Alert>}
