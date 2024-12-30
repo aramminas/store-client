@@ -6,8 +6,8 @@ import { ss } from "@/store-client/src/utils";
 import { ErrorText } from "../../../common/error-text";
 import { HelperText } from "../../../common/helper-text";
 import { useAppDispatch } from "@/store-client/src/store";
-import apiHandler from "@/store-client/src/constants/api";
 import { passwordHelperText } from "@/store-client/src/constants";
+import { apiPublicHandler } from "@/store-client/src/constants/api";
 import { setUserData } from "@/store-client/src/store/slices/user.slice";
 import { signInValidator } from "@/store-client/src/utils/form-validator";
 import { SignInFormInputT, TokenT, UserT } from "@/store-client/src/types";
@@ -44,7 +44,7 @@ export const SignInForm = () => {
     formData.append("email", email);
     formData.append("password", password);
 
-    const response = await apiHandler<UserT & TokenT>("users/login", {
+    const response = await apiPublicHandler<UserT & TokenT>("users/login", {
       method: "POST",
       body: formData,
     });

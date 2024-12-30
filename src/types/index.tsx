@@ -57,6 +57,11 @@ export type ProductT = {
   updatedAt: Date;
 };
 
+export type ProductsDataT = {
+  total: number;
+  products: ProductT[];
+};
+
 export type CreateProductFormInputT = { image: File | null } & Omit<
   ProductT,
   "id" | "imageUrl" | "creatorId" | "createdAt" | "updatedAt"
@@ -71,4 +76,8 @@ export type DecodedToken = {
     firstName: string;
     lastName: string;
   };
+};
+
+export type AccessTokenT = {
+  accessToken: string;
 };

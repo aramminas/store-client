@@ -71,8 +71,8 @@ export const actionProductValidator = async (
 ) => {
   const userProductScheme = Joi.object({
     name: Joi.string().min(2).required(),
-    price: Joi.number().integer().greater(0).required(),
-    discountedPrice: Joi.number().optional(),
+    price: Joi.number().precision(2).strict().greater(0).required(),
+    discountedPrice: Joi.number().precision(2).strict().greater(0).optional(),
     description: Joi.string().optional(),
     image: Joi.any()
       .optional()

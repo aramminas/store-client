@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { GrLogout } from "react-icons/gr";
 import { imgUrl, ss } from "@/store-client/src/utils";
 import { useAppSelector } from "@/store-client/src/store";
+import apiHandler from "@/store-client/src/constants/api";
 import { defaultUresAvatar } from "@/store-client/src/constants";
 
 export const AccountUserInfo = () => {
@@ -9,9 +10,13 @@ export const AccountUserInfo = () => {
 
   const user = useAppSelector((state) => state.user.data);
 
-  const handelLogout = () => {
-    ss.remove();
-    navigate("/login");
+  const handelLogout = async () => {
+    const response = await apiHandler("users/logout");
+
+    if (response.status === 200) {
+      ss.remove();
+      navigate("/login");
+    }
   };
 
   return (

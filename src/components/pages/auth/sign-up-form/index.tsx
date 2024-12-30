@@ -10,9 +10,9 @@ import { toast } from "react-toastify";
 
 import { ErrorText } from "../../../common/error-text";
 import { HelperText } from "../../../common/helper-text";
-import apiHandler from "@/store-client/src/constants/api";
-import { SignUpFormInputT } from "@/store-client/src/types";
+import { SignUpFormInputT, UserT } from "@/store-client/src/types";
 import { passwordHelperText } from "@/store-client/src/constants";
+import { apiPublicHandler } from "@/store-client/src/constants/api";
 import { signUpValidator } from "@/store-client/src/utils/form-validator";
 
 type SignUpFormProps = {
@@ -80,7 +80,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ setToogleForm }) => {
       }
     }
 
-    const response = await apiHandler("users", {
+    const response = await apiPublicHandler<UserT>("users", {
       method: "POST",
       body: formData,
     });

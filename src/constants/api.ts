@@ -39,6 +39,15 @@ const refreshToken = async () => {
       return responseData.data;
     }
 
+    if (
+      (responseData.status === 403 &&
+        responseData.message === "Invalid refresh token") ||
+      (responseData.status === 401 &&
+        responseData.message === "You are not authenticated!")
+    ) {
+      ss.remove();
+    }
+
     return null;
   } catch (error) {
     return { error: (error as Error).message, status: 500 };
@@ -63,20 +72,39 @@ export const getToken = async () => {
   return token;
 };
 
-const apiHandler = async <T>(
+const apiErrorHandler = async (response: Response) => {
+  if (!response.ok) {
+    const errorData = await response.json();
+
+    if (
+      response.statusText === "Unauthorized" &&
+      errorData.message === "Invalid email or password"
+    ) {
+      throw new Error(errorData.message);
+    }
+
+    const message = errorData.message
+      ? errorData.message
+      : `Error ${response.status}: ${response.statusText}`;
+
+    throw new Error(message);
+  }
+};
+
+const apiDataHandler = async <T>(response: Response) => {
+  const responseData: { data: T } = await response.json();
+
+  return { data: responseData.data, status: response.status };
+};
+
+const defaultHeaders: Record<string, string> = {
+  Accept: "application/form-data",
+};
+
+export const apiPublicHandler = async <T>(
   path: string,
   options: RequestOptions = {}
 ): Promise<ApiResponse<T>> => {
-  const defaultHeaders: Record<string, string> = {
-    Accept: "application/form-data",
-  };
-
-  const token = await getToken();
-
-  if (token) {
-    defaultHeaders["authorization"] = `Bearer ${token}`;
-  }
-
   const headers = { ...defaultHeaders, ...options.headers };
 
   try {
@@ -86,23 +114,38 @@ const apiHandler = async <T>(
       credentials: "include",
     });
 
-    if (!response.ok) {
-      if (response.statusText === "Unauthorized") {
-        throw new Error(`Invalid email or password`);
-      }
+    await apiErrorHandler(response);
 
-      const errorData = await response.json();
+    return await apiDataHandler<T>(response);
+  } catch (error) {
+    return { error: (error as Error).message, status: 500 };
+  }
+};
 
-      const message = errorData.message
-        ? errorData.message
-        : `Error ${response.status}: ${response.statusText}`;
+const apiHandler = async <T>(
+  path: string,
+  options: RequestOptions = {}
+): Promise<ApiResponse<T>> => {
+  const token = await getToken();
 
-      throw new Error(message);
-    }
+  const apiHeaders = { ...defaultHeaders };
 
-    const responseData: { data: T } = await response.json();
+  if (token) {
+    apiHeaders["authorization"] = `Bearer ${token}`;
+  }
 
-    return { data: responseData.data, status: response.status };
+  const headers = { ...apiHeaders, ...options.headers };
+
+  try {
+    const response = await fetch(`${apiUrl}/${path}`, {
+      ...options,
+      headers,
+      credentials: "include",
+    });
+
+    await apiErrorHandler(response);
+
+    return await apiDataHandler<T>(response);
   } catch (error) {
     return { error: (error as Error).message, status: 500 };
   }

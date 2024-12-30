@@ -1,9 +1,9 @@
-import { ProductT } from "../../types";
+import { ProductsDataT } from "../../types";
 import apiHandler from "../../constants/api";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 interface ProductsState {
-  data: ProductT[] | null;
+  data: ProductsDataT | null;
   loading: boolean;
   status: "idle" | "loading" | "failed" | "succeeded";
   error?: string | null;
@@ -46,7 +46,7 @@ const productsSlice = createSlice({
 export const fetchProducts = createAsyncThunk(
   "posts/fetchProducts",
   async (signal?: AbortSignal) => {
-    const response = await apiHandler<ProductT[]>("products", { signal });
+    const response = await apiHandler<ProductsDataT>("products", { signal });
 
     return response.data;
   }

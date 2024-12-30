@@ -115,6 +115,18 @@ export const UserInfo = () => {
         <HoverText>User name</HoverText>
       </div>
       <div className="user-info-details-section">
+        <label htmlFor="email" className="form-input">
+          E-mail
+        </label>
+        <input
+          disabled
+          id="email"
+          type="email"
+          name="email"
+          className="form-input"
+          placeholder="User email "
+          defaultValue={user?.email || ""}
+        />
         <form ref={formRef} onSubmit={handleUpdateData}>
           <label htmlFor="first-name" className="form-input">
             First Name

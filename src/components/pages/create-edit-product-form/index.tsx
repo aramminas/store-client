@@ -147,6 +147,7 @@ export const CreateEditProductForm: FC<CreateEditProductFormProps> = ({
         <input
           id="product-price"
           type="number"
+          step="0.01"
           name="price"
           className="form-input"
           placeholder="Enter product price"
@@ -159,6 +160,7 @@ export const CreateEditProductForm: FC<CreateEditProductFormProps> = ({
         <input
           id="discounted-price"
           type="number"
+          step="0.01"
           name="discounted-price"
           className="form-input"
           placeholder="Enter discounted price"

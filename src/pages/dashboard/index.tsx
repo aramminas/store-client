@@ -12,8 +12,8 @@ import { Alert } from "../../components/common/alert";
 import { Loader } from "../../components/common/loader";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { DataNotFound } from "../../components/data-not-found";
-import { ContentFilters } from "../../components/pages/dashboard/dashboard-content/content-filters";
 import { ContentHeader } from "../../components/pages/dashboard/dashboard-content/content-header";
+import { ContentFilters } from "../../components/pages/dashboard/dashboard-content/content-filters";
 import { ContentListView } from "../../components/pages/dashboard/dashboard-content/content-list-view";
 import "./styles.scss";
 
@@ -87,15 +87,16 @@ export const Dashboard = () => {
         debouncedChange={debouncedChange}
       />
 
-      {!data || (!data.length && <DataNotFound />)}
+      {!data || (!data?.products?.length && <DataNotFound />)}
       {status === "failed" && <Alert type="error">{error}</Alert>}
       {loading && <Loader />}
 
-      {!!data?.length && (
+      {!!data?.products?.length && (
         <ContentListView
           isCardView={isCardView}
           userId={user?.id || 0}
-          products={data || []}
+          products={data?.products || []}
+          total={data?.total}
         />
       )}
     </>
