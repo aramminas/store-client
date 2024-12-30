@@ -26,6 +26,7 @@ export const ContentFilters: FC<ContentFiltersProps> = ({
   debouncedChange,
 }) => {
   const formRef = useRef<HTMLFormElement | null>(null);
+  const searchFormRef = useRef<HTMLFormElement | null>(null);
   const [isFilterOpen, setFilterOpen] = useState(false);
 
   const handleSubmitFilters = async (ev: FormEvent<HTMLFormElement>) => {
@@ -43,16 +44,19 @@ export const ContentFilters: FC<ContentFiltersProps> = ({
     setFilterOpen(false);
     debouncedChange(null);
     formRef?.current?.reset();
+    searchFormRef?.current?.reset();
   };
 
   return (
     <div className="app-content-actions">
-      <input
-        className="search-bar"
-        placeholder="Search..."
-        type="search"
-        onChange={(ev) => debouncedChange(ev.target.value)}
-      />
+      <form ref={searchFormRef}>
+        <input
+          className="search-bar"
+          placeholder="Search..."
+          type="search"
+          onChange={(ev) => debouncedChange(ev.target.value.trim())}
+        />
+      </form>
       <div className="app-content-actions-wrapper">
         <div className="filter-button-wrapper">
           <button

@@ -59,3 +59,21 @@ export const getJwtData = () => {
 
   return jwtDecode<DecodedToken>(token);
 };
+
+export const paginationArray = (total: number) => {
+  return Array.from({ length: total }, (_, index) => index + 1);
+};
+
+export const getPageOffset = (searchParams: URLSearchParams, limit: number) => {
+  return getPageParam(searchParams) * limit;
+};
+
+export const getPageParam = (searchParams: URLSearchParams) => {
+  const page = getParamsValue(searchParams, "page");
+
+  return page ? page - 1 : 0;
+};
+
+export const getParamsValue = (searchParams: URLSearchParams, key: string) => {
+  return searchParams.get(key) ? Number(searchParams.get(key)) : null;
+};

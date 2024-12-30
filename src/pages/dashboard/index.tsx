@@ -1,50 +1,65 @@
 import { useCallback, useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
+import { useLocation } from "react-router-dom";
 
 import {
   fetchProducts,
   setProductData,
 } from "../../store/slices/products.slice";
-import { ProductT } from "../../types";
 import apiHandler from "../../constants/api";
+import { showPerPage } from "../../constants";
 import { useDebounce } from "../../hooks/useDebounce";
 import { Alert } from "../../components/common/alert";
 import { Loader } from "../../components/common/loader";
+import { ProductFilterParams, ProductT } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { DataNotFound } from "../../components/data-not-found";
+import { Pagination } from "../../components/common/pagination";
+import { getPageOffset, getPageParam, getParamsValue } from "../../utils";
 import { ContentHeader } from "../../components/pages/dashboard/dashboard-content/content-header";
 import { ContentFilters } from "../../components/pages/dashboard/dashboard-content/content-filters";
 import { ContentListView } from "../../components/pages/dashboard/dashboard-content/content-list-view";
 import "./styles.scss";
 
 export const Dashboard = () => {
+  const location = useLocation();
   const dispatch = useAppDispatch();
+  const searchParams = new URLSearchParams(location.search);
+  const [limit] = useState(
+    getParamsValue(searchParams, "limit") || showPerPage
+  );
+  const [offset, setOffset] = useState(getPageOffset(searchParams, limit));
+
   const [isOwnerId, setOvnerId] = useState(false);
+  const [isCardView, setCardView] = useState(false);
   const [search, setSearch] = useState<string | null>(null);
+
+  const user = useAppSelector((state) => state.user.data);
   const { data, status, loading, error } = useAppSelector(
     (state) => state.products
   );
+
   const debouncedChange = useDebounce((inputValue: string | null) => {
     setSearch(inputValue);
   });
-  const user = useAppSelector((state) => state.user.data);
-
-  const [isCardView, setCardView] = useState(false);
 
   const getProductsFilter = useCallback(
-    async (ovnerId: boolean, name: string | null) => {
+    async (filters: ProductFilterParams) => {
       let path = "products";
 
-      if (ovnerId) {
-        path += `/?ovnerId=${user?.id}`;
-        if (name) {
-          path += `&q=${name}`;
+      for (const [key, value] of Object.entries(filters)) {
+        if (value || value === 0) {
+          searchParams.set(key, String(value));
+        } else {
+          searchParams.delete(key);
         }
       }
 
-      if (!ovnerId && name) {
-        path += `/?q=${name}`;
-      }
+      // remove page param (This is an unnecessary parameter,
+      // as the limit and offset are sufficient for a request.)
+      searchParams.delete("page");
+      const params = searchParams.toString();
+      path += params ? `/?${params}` : "";
 
       const response = await apiHandler<ProductT[]>(path);
 
@@ -52,7 +67,7 @@ export const Dashboard = () => {
         dispatch(setProductData(response.data));
       }
     },
-    [dispatch, user?.id]
+    [dispatch]
   );
 
   useEffect(() => {
@@ -69,8 +84,9 @@ export const Dashboard = () => {
   }, [data, status, dispatch]);
 
   useEffect(() => {
-    getProductsFilter(isOwnerId, search);
-  }, [isOwnerId, search, getProductsFilter]);
+    const userId = isOwnerId ? user?.id : null;
+    getProductsFilter({ userId, name: search, offset, limit });
+  }, [isOwnerId, search, offset, limit, user?.id, getProductsFilter]);
 
   return (
     <>
@@ -92,12 +108,20 @@ export const Dashboard = () => {
       {loading && <Loader />}
 
       {!!data?.products?.length && (
-        <ContentListView
-          isCardView={isCardView}
-          userId={user?.id || 0}
-          products={data?.products || []}
-          total={data?.total}
-        />
+        <>
+          <ContentListView
+            isCardView={isCardView}
+            userId={user?.id || 0}
+            products={data?.products || []}
+            total={data?.total}
+          />
+          <Pagination
+            total={data.total}
+            setOffset={setOffset}
+            itemsPerPage={limit}
+            defaultSelectedPage={getPageParam(searchParams)}
+          />
+        </>
       )}
     </>
   );

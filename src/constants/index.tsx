@@ -23,6 +23,7 @@ export const productDetailsName: productDetailNameT[] = [
   },
 ];
 
+export const showPerPage = 10;
 export const defaultUresAvatar = "/images/default-avatar.jpg";
 export const defaultProductImage = "/images/default-product.png";
 export const allowedFileTypes = ["image/jpeg", "image/png"];

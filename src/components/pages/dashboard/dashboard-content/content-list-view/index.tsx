@@ -19,16 +19,18 @@ export const ContentListView: FC<ContentListView> = ({
   total,
 }) => {
   return (
-    <div
-      className={`products-area-wrapper ${
-        isCardView ? "gridView" : "tableView"
-      } `}
-    >
+    <>
       <Animation3DText small>Total: {total}</Animation3DText>
-      <ContentListHeader />
-      {products.map((product) => (
-        <ContentListItem key={product.id} userId={userId} product={product} />
-      ))}
-    </div>
+      <div
+        className={`products-area-wrapper ${
+          isCardView ? "gridView" : "tableView"
+        } `}
+      >
+        <ContentListHeader />
+        {products.map((product) => (
+          <ContentListItem key={product.id} userId={userId} product={product} />
+        ))}
+      </div>
+    </>
   );
 };

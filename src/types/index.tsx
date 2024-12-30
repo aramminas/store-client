@@ -81,3 +81,10 @@ export type DecodedToken = {
 export type AccessTokenT = {
   accessToken: string;
 };
+
+export type ProductFilterParams = {
+  userId?: number | null;
+  name: string | null;
+  offset: number;
+  limit: number;
+};
